@@ -1,38 +1,39 @@
-package com.company;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
-public class Main {
+public class LCMCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество чисел: ");
+        int n = scanner.nextInt();
+        int[] numbers = new int[n];
 
+        System.out.println("Введите " + n + " целых числа:");
+        for (int i = 0; i < n; i++) {
+            numbers[i] = scanner.nextInt();
+        }
 
-  public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Введите первый параметр: ");
-    int m = scanner.nextInt();
-    System.out.println("Введите второй параметр: ");
-    int n = scanner.nextInt();
-    System.out.println(countUniquePaths(m, n));
-  }
-
-  public static int countUniquePaths(int m, int n) {
-    int[][] dp = new int[m][n];
-
-    for (int i = 0; i < m; i++) {
-      dp[i][0] = 1;
-    }
-    for (int j = 0; j < n; j++) {
-      dp[0][j] = 1;
+        int lcm = findLCM(numbers);
+        System.out.println("Наименьшая общая кратная (НОК) для введённых чисел: " + lcm);
     }
 
-    for (int i = 1; i < m; i++) {
-      for (int j = 1; j < n; j++) {
-        dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-      }
+    public static int findLCM(int[] numbers) {
+        int lcm = numbers[0];
+        for (int i = 1; i < numbers.length; i++) {
+            lcm = lcm(lcm, numbers[i]);
+        }
+        return lcm;
     }
 
-    return dp[m - 1][n - 1];
-  }
+    public static int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
+    public static int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
 }
